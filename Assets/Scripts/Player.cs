@@ -38,6 +38,8 @@ public class Player : MonoBehaviour
     private AudioClip _laserSoundClip;
     private AudioSource _audioSource;
 
+    [SerializeField]
+    private GameObject _explosionPrefab;
 
     // Start is called before the first frame update
     void Start()
@@ -146,9 +148,17 @@ public class Player : MonoBehaviour
 
         if (_lives < 1)
         {
-            _spawnManager.OnPlayerDeath();
-            Destroy(this.gameObject);
+            StartCoroutine(Explode());
         }
+    }
+
+    IEnumerator Explode()
+    {
+        _spawnManager.OnPlayerDeath();
+        Instantiate(_explosionPrefab, transform.position, Quaternion.identity);
+        yield return new WaitForSeconds(0.25f);
+        Destroy(this.gameObject);
+
     }
 
     public void TripleShotActive()
