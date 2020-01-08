@@ -183,6 +183,29 @@ public class Player : MonoBehaviour
         _shieldVisualizer.SetActive(true);
     }
 
+    public void AddHealth()
+    {
+        if (_lives < 3)
+        {
+            _lives++;
+        }
+
+        switch(_lives)
+        {
+            case 3:
+                _leftEngine.SetActive(false);
+                break;
+            case 2:
+                _rightEngine.SetActive(false);
+                break;
+            default:
+                break;
+        }
+
+        _uiManager.UpdateLives(_lives);
+
+    }
+
     public void AddScore(int points)
     {
         _score += points;
